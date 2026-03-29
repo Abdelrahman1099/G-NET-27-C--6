@@ -9,14 +9,21 @@ namespace Assignment_5
 {
     internal class Ticket
     {
-        public string _MovieName;
-        public TicketType _Type;
-        public SeatLocation _Seat;
+        private string _MovieName;
+        public TicketType _Type { get; set; }
+        public SeatLocation _Seat { get; set; }
         private double _Price;
+        private static int _ticketCounter = 0;
+        public int _TicketId { get; private set; }
+
+        public string MovieName { get { return _MovieName; } set { if (!string.IsNullOrWhiteSpace(value)) { _MovieName = value; } } }
+        public double price { get { return _Price; } set { if (value > 0) { _Price = value; } } }
+        public double PriceAfterTax => _Price * 1.14;
+        
 
         public Ticket (string MovieName, TicketType Type, SeatLocation Seat, double Price)
         {
-            _MovieName = MovieName;
+            _MovieName = MovieName; 
             _Type = Type;   
             _Seat = Seat; 
             this._Price = Price;
@@ -51,6 +58,23 @@ namespace Assignment_5
             Console.WriteLine($"Price : {_Price}");
             Console.WriteLine($"Total ({taxPercent}% tax) : {CalcTotal(taxPercent)}");
         }
+
+
+
+
+        public Ticket()
+        {
+            _ticketCounter++;
+            _TicketId = _ticketCounter;
+        }
+
+
+        public static int GetTotalTicketsSold()
+        {
+            return _ticketCounter;
+        } 
+        
+
 
     }
 }
